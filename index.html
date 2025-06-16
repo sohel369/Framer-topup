@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Sticky Communication Widget</title>
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+SA:wght@100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+            rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+            integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+      <style>
+            body {
+                  margin: 0;
+                  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+
+            .widget-container {
+                  position: fixed;
+                  bottom: 20px;
+                  right: 20px;
+                  z-index: 1000;
+            }
+
+            .widget-toggle {
+                  background-color: #4f46e5;
+                  color: white;
+                  width: 60px;
+                  height: 60px;
+                  border-radius: 50%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  cursor: pointer;
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                  transition: transform 0.3s ease;
+            }
+
+            .widget-toggle:hover {
+                  transform: scale(1.1);
+            }
+
+            .widget-content {
+                  display: none;
+                  background: linear-gradient(to right, #4f46e5, #9f7aea);
+                  border-radius: 12px;
+                  padding: 20px;
+                  width: 280px;
+                  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+                  position: absolute;
+                  bottom: 80px;
+                  right: 0;
+                  animation: slideIn 0.3s ease;
+            }
+
+            .widget-content.active {
+                  display: block;
+            }
+
+            @keyframes slideIn {
+                  from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                  }
+
+                  to {
+                        opacity: 1;
+                        transform: translateY(0);
+                  }
+            }
+
+            .widget-content h3 {
+                  margin: 0 0 15px;
+                  font-size: 18px;
+                  color: #1f2937;
+            }
+
+            .comm-option {
+                  display: flex;
+                  align-items: center;
+                  padding: 12px;
+                  margin-bottom: 10px;
+                  background-color: #f9fafb;
+                  border-radius: 8px;
+                  cursor: pointer;
+                  transition: background-color 0.2s ease;
+            }
+
+            .comm-option:hover {
+                  background-color: #e5e7eb;
+            }
+
+            .comm-option i {
+                  font-size: 20px;
+                  margin-right: 12px;
+                  color: #4f46e5;
+            }
+
+            .comm-option span {
+                  font-size: 16px;
+                  color: #1f2937;
+            }
+
+            .comm-form {
+                  display: none;
+                  flex-direction: column;
+                  gap: 10px;
+                  margin-top: 10px;
+            }
+
+            .comm-form.active {
+                  display: flex;
+            }
+
+            .comm-form input,
+            .comm-form textarea {
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #d1d5db;
+                  border-radius: 6px;
+                  font-size: 14px;
+                  box-sizing: border-box;
+            }
+
+            .comm-form button {
+                  background-color: #4f46e5;
+                  color: white;
+                  padding: 10px;
+                  border: none;
+                  border-radius: 6px;
+                  cursor: pointer;
+                  font-size: 14px;
+                  transition: background-color 0.2s ease;
+            }
+
+            .comm-form button:hover {
+                  background-color: #4338ca;
+            }
+
+            .social-icons {
+                  display: flex;
+                  justify-content: center;
+                  gap: 15px;
+                  margin-top: 15px;
+                  padding-top: 15px;
+                  border-top: 1px solid #e5e7eb;
+            }
+
+            .social-icons a {
+                  color: #fdfeff;
+                  font-size: 20px;
+                  transition: color 0.2s ease, transform 0.2s ease;
+            }
+
+            .social-icons a:hover {
+                  color: #4f46e5;
+                  transform: scale(1.2);
+            }
+            @media screen and (max-width: 768px) {
+                  .widget-container {
+                      bottom: 10px;
+                      right: 0px;
+                 }
+                 .widget-toggle {
+                      width: 50px;
+                      height: 50px;
+                      margin-right: 10px;
+                 }
+            }
+      </style>
+</head>
+
+<body>
+      <div class="widget-container">
+            <div class="widget-toggle">
+                  <i class="fas fa-comment-dots fa-2x"></i>
+            </div>
+            <div class="widget-content">
+                  <h3>Contact Us</h3>
+                  <div class="comm-option" data-type="whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                  </div>
+                  <div class="comm-option" data-type="telegram">
+                        <i class="fab fa-telegram-plane"></i>
+                        <span>Telegram</span>
+                  </div>
+                  <div class="comm-option" data-type="email">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email</span>
+                  </div>
+                  <div class="comm-form" data-type="email">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit">Send</button>
+                  </div>
+                  <div class="social-icons">
+                        <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                  </div>
+            </div>
+      </div>
+
+      <script>
+            const toggleButton = document.querySelector('.widget-toggle');
+            const widgetContent = document.querySelector('.widget-content');
+            const commOptions = document.querySelectorAll('.comm-option');
+            const emailForm = document.querySelector('.comm-form[data-type="email"]');
+
+            toggleButton.addEventListener('click', () => {
+                  widgetContent.classList.toggle('active');
+            });
+
+            commOptions.forEach(option => {
+                  option.addEventListener('click', () => {
+                        const type = option.dataset.type;
+                        if (type === 'whatsapp') {
+                              emailForm.classList.remove('active');
+                              window.location.href = 'https://wa.me/1234567890?text=Hello%20there!';
+                        } else if (type === 'telegram') {
+                              emailForm.classList.remove('active');
+                              window.location.href = 'https://t.me/yourusername';
+                        } else if (type === 'email') {
+                              emailForm.classList.toggle('active');
+                        }
+                  });
+            });
+
+            emailForm.addEventListener('submit', (e) => {
+                  e.preventDefault();
+                  alert('Email sent successfully!'); // Replace with actual email sending logic
+                  emailForm.reset();
+                  emailForm.classList.remove('active');
+            });
+      </script>
+</body>
+
+</html>
